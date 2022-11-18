@@ -66,11 +66,12 @@ const SongList = () => {
 
 function Song({ song }) {
   const { title, artist, thumbnail } = song;
+  const classes = useStyles();
   return (
-    <Card>
-      <div>
-        <CardMedia image={thumbnail} />
-        <div>
+    <Card className={classes.container}>
+      <div className={classes.songInfoContainer}>
+        <CardMedia image={thumbnail} className={classes.thumbnail} />
+        <div className={classes.songInfo}>
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
               {title}
