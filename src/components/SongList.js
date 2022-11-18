@@ -56,7 +56,6 @@ const SongList = () => {
 
   return (
     <div>
-      SongList
       {Array.from({ length: 10 }, () => song).map((song, i) => (
         <Song song={song} />
       ))}
