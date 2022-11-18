@@ -84,11 +84,13 @@ const AddSong = () => {
       />
       <Button
         className={classes.addSongButton}
-        variant="container"
+        variant="contained"
         color="primary"
         endIcon={<AddBoxOutlined />}
         onClick={() => setDialog(true)}
-      ></Button>
+      >
+        Add
+      </Button>
     </div>
   );
 };

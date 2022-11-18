@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <>
         <Header />
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid style={{ paddingTop: 80 }} item xs={12} md={7}>
             <AddSong />
             <SongList />
