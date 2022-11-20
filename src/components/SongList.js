@@ -7,45 +7,42 @@ import {
   CardActions,
   IconButton,
   makeStyles,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import BookmarkIcon from "@material-ui/icons/Bookmark";
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import { useQuery } from '@apollo/client';
+import { GET_SONGS } from '../graphql/queries';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     margin: theme.spacing(3),
   },
   songInfoContainer: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
   },
   songInfo: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between",
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   thumbnail: {
-    objectFit: "cover",
+    objectFit: 'cover',
     width: 140,
     height: 140,
   },
 }));
 const SongList = () => {
-  let loading = false;
+  const { loading, data, error } = useQuery(GET_SONGS);
 
-  const song = {
-    title: "Bang Bang Bang",
-    artist: "BIGBANG",
-    thumbnail: "https://img.youtube.com/vi/2ips2mM7Zqw/sddefault.jpg",
-  };
   if (loading) {
     return (
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
           marginTop: 50,
         }}
       >
@@ -53,11 +50,14 @@ const SongList = () => {
       </div>
     );
   }
+  if (error) {
+    <div>Error fetching songs</div>;
+  }
 
   return (
     <div>
-      {Array.from({ length: 10 }, () => song).map((song, i) => (
-        <Song song={song} />
+      {data.songs.map((song) => (
+        <Song key={song.id} song={song} />
       ))}
     </div>
   );
