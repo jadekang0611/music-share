@@ -14,6 +14,12 @@ const httpLink = new HttpLink({
 const wsLink = new GraphQLWsLink(
   createClient({
     url: 'ws://on-firefly-85.hasura.app/v1/graphql',
+    connectionParams: {
+      headers: {
+        'x-hasura-admin-secret':
+          'LzODuRqK4UV61gr0O1nULEu0OIWvnRC9QDWeaCK5oXEnZp4ZdtZJKh86UBIkDRBY',
+      },
+    },
   })
 );
 

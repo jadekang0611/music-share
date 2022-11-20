@@ -11,8 +11,8 @@ import {
 
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
-import { useQuery } from '@apollo/client';
-import { GET_SONGS } from '../graphql/queries';
+import { useSubscription } from '@apollo/client';
+import { GET_SONGS } from '../graphql/subscriptions';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -34,7 +34,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const SongList = () => {
-  const { loading, data, error } = useQuery(GET_SONGS);
+  const { loading, data, error } = useSubscription(GET_SONGS);
+  console.dir(data);
+  console.dir(error);
 
   if (loading) {
     return (
