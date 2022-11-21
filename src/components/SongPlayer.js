@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Card,
   CardContent,
@@ -8,7 +9,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import QueuedSongList from "./QueuedSongList";
-import { PlayArrow, SkipNext, SkipPrevious } from "@material-ui/icons";
+import { PlayArrow, SkipNext, SkipPrevious, Pause } from "@material-ui/icons";
+import { SongContext } from "../App";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,25 +41,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SongPlayer = () => {
+  const { state, dispatch } = React.useContext(SongContext);
   const classes = useStyles();
+
+  function handleTogglePlay() {
+    dispatch(state.isPlaying ? { type: "PAUSE_SONG" } : { type: "PLAY_SONG" });
+  }
+
   return (
     <>
       <Card variant="outlined" className={classes.container}>
         <div className={classes.details}>
           <CardContent className={classes.content}>
             <Typography variant="h5" component="h3">
-              Title
+              {state.song.title}
             </Typography>
             <Typography variant="subtitle" component="p" color="textSecondary">
-              Artist
+              {state.song.artist}
             </Typography>
           </CardContent>
           <div className={classes.controls}>
             <IconButton>
               <SkipPrevious />
             </IconButton>
-            <IconButton>
-              <PlayArrow className={classes.playIcon} />
+            <IconButton onClick={handleTogglePlay}>
+              {state.isPlaying ? (
+                <Pause className={classes.playIcon} />
+              ) : (
+                <PlayArrow className={classes.playIcon} />
+              )}
             </IconButton>
             <IconButton>
               <SkipNext />
@@ -68,10 +80,7 @@ const SongPlayer = () => {
           </div>
           <Slider type="range" min={0} max={1} step={0.01} />
         </div>
-        <CardMedia
-          className={classes.thumbnail}
-          image="https://img.youtube.com/vi/2ips2mM7Zqw/sddefault.jpg"
-        />
+        <CardMedia className={classes.thumbnail} image={state.song.thumbnail} />
       </Card>
       <QueuedSongList />
     </>

@@ -7,28 +7,31 @@ import {
   CardActions,
   IconButton,
   makeStyles,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
-import { useSubscription } from '@apollo/client';
-import { GET_SONGS } from '../graphql/subscriptions';
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
+import { useSubscription } from "@apollo/client";
+import { GET_SONGS } from "../graphql/subscriptions";
+import React from "react";
+import { SongContext } from "../App";
+import { Pause } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   container: {
     margin: theme.spacing(3),
   },
   songInfoContainer: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   songInfo: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
   },
   thumbnail: {
-    objectFit: 'cover',
+    objectFit: "cover",
     width: 140,
     height: 140,
   },
@@ -42,9 +45,9 @@ const SongList = () => {
     return (
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
           marginTop: 50,
         }}
       >
@@ -66,8 +69,22 @@ const SongList = () => {
 };
 
 function Song({ song }) {
+  const { id } = song;
   const { title, artist, thumbnail } = song;
   const classes = useStyles();
+  const { state, dispatch } = React.useContext(SongContext);
+  const [currentSongPlaying, setCurrentSongPlaying] = React.useState(false);
+
+  React.useEffect(() => {
+    const isSongPlaying = state.isPlaying && id === state.song.id;
+    setCurrentSongPlaying(isSongPlaying);
+  }, [id, state.song.id, state.isPlaying]);
+
+  function handleTogglePlay() {
+    dispatch({ type: "SET_SONG", payload: { song } });
+    dispatch(state.isPlaying ? { type: "PAUSE_SONG" } : { type: "PLAY_SONG" });
+  }
+
   return (
     <Card className={classes.container}>
       <div className={classes.songInfoContainer}>
@@ -82,8 +99,8 @@ function Song({ song }) {
             </Typography>
           </CardContent>
           <CardActions>
-            <IconButton size="small" color="primary">
-              <PlayArrowIcon />
+            <IconButton onClick={handleTogglePlay} size="small" color="primary">
+              {currentSongPlaying ? <Pause /> : <PlayArrowIcon />}
             </IconButton>
             <IconButton size="small" color="primary">
               <BookmarkIcon color="secondary" />
