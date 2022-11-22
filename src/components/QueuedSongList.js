@@ -13,7 +13,8 @@ const song = {
   thumbnail: "https://img.youtube.com/vi/2ips2mM7Zqw/sddefault.jpg",
 };
 
-const QueuedSongList = () => {
+const QueuedSongList = ({ queue }) => {
+  console.log({ queue });
   const greaterThanMd = useMediaQuery((theme) => theme.breakpoints.up("md"));
   return (
     greaterThanMd && (

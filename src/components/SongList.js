@@ -11,11 +11,12 @@ import {
 
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
-import { useSubscription } from "@apollo/client";
+import { useMutation, useSubscription } from "@apollo/client";
 import { GET_SONGS } from "../graphql/subscriptions";
 import React from "react";
 import { SongContext } from "../App";
 import { Pause } from "@material-ui/icons";
+import { ADD_OR_REMOVE_FROM_QUEUE } from "../graphql/mutations";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -38,8 +39,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 const SongList = () => {
   const { loading, data, error } = useSubscription(GET_SONGS);
-  console.dir(data);
-  console.dir(error);
 
   if (loading) {
     return (
@@ -72,6 +71,7 @@ function Song({ song }) {
   const { id } = song;
   const { title, artist, thumbnail } = song;
   const classes = useStyles();
+  const [addOrRemoveFromQueue] = useMutation(ADD_OR_REMOVE_FROM_QUEUE);
   const { state, dispatch } = React.useContext(SongContext);
   const [currentSongPlaying, setCurrentSongPlaying] = React.useState(false);
 
@@ -83,6 +83,12 @@ function Song({ song }) {
   function handleTogglePlay() {
     dispatch({ type: "SET_SONG", payload: { song } });
     dispatch(state.isPlaying ? { type: "PAUSE_SONG" } : { type: "PLAY_SONG" });
+  }
+
+  function handleAddOrRemoveFromQueue() {
+    addOrRemoveFromQueue({
+      variables: { input: { ...song, __typename: "Song" } },
+    });
   }
 
   return (
@@ -102,7 +108,11 @@ function Song({ song }) {
             <IconButton onClick={handleTogglePlay} size="small" color="primary">
               {currentSongPlaying ? <Pause /> : <PlayArrowIcon />}
             </IconButton>
-            <IconButton size="small" color="primary">
+            <IconButton
+              onClick={handleAddOrRemoveFromQueue}
+              size="small"
+              color="primary"
+            >
               <BookmarkIcon color="secondary" />
             </IconButton>
           </CardActions>

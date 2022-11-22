@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const GET_SONGS = gql`
   query getSongs {
@@ -8,6 +8,19 @@ export const GET_SONGS = gql`
       id
       thumbnail
       title
+      url
+    }
+  }
+`;
+
+export const GET_QUEUED_SONGS = gql`
+  query getQueuedSongs {
+    queue @client {
+      id
+      duration
+      title
+      artist
+      thumbnail
       url
     }
   }
