@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -50,7 +50,21 @@ const SongPlayer = ({ queue }) => {
   const [played, setPlayed] = useState(0);
   const [playedSeconds, setPlayedSeconds] = useState(0);
   const [seeking, setSeeking] = useState(false);
+  const [positionInQueue, setPositionInQueue] = useState(0);
   const classes = useStyles();
+
+  useEffect(() => {
+    const songIndex = data.queue.findIndex((song) => song.id === state.song.id);
+    setPositionInQueue(songIndex);
+  }, [data.queue, state.song.id]);
+
+  useEffect(() => {
+    const nextSong = data.queue[positionInQueue + 1];
+    if (played >= 0.99 && nextSong) {
+      setPlayed(0);
+      dispatch({ type: "SET_SONG", payload: { song: nextSong } });
+    }
+  }, [data.queue, played, dispatch, positionInQueue]);
 
   function handleTogglePlay() {
     dispatch(state.isPlaying ? { type: "PAUSE_SONG" } : { type: "PLAY_SONG" });
@@ -73,6 +87,20 @@ const SongPlayer = ({ queue }) => {
     return new Date(seconds * 1000).toISOString().substr(11, 8);
   }
 
+  function handlePlayNextSong() {
+    const nextSong = data.queue[positionInQueue + 1];
+    if (nextSong) {
+      dispatch({ type: "SET_SONG", payload: { song: nextSong } });
+    }
+  }
+
+  function handlePlayPreviousSong() {
+    const prevSong = data.queue[positionInQueue - 1];
+    if (prevSong) {
+      dispatch({ type: "SET_SONG", payload: { song: prevSong } });
+    }
+  }
+
   return (
     <>
       <Card variant="outlined" className={classes.container}>
@@ -86,7 +114,7 @@ const SongPlayer = ({ queue }) => {
             </Typography>
           </CardContent>
           <div className={classes.controls}>
-            <IconButton>
+            <IconButton onClick={handlePlayPreviousSong}>
               <SkipPrevious />
             </IconButton>
             <IconButton onClick={handleTogglePlay}>
@@ -96,7 +124,7 @@ const SongPlayer = ({ queue }) => {
                 <PlayArrow className={classes.playIcon} />
               )}
             </IconButton>
-            <IconButton>
+            <IconButton onClick={handlePlayNextSong}>
               <SkipNext />
             </IconButton>
             <Typography variant="subtitle1" component="p" color="textSecondary">
