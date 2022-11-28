@@ -43,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SongPlayer = ({ queue }) => {
-  console.log({ queue });
   const { data } = useQuery(GET_QUEUED_SONGS);
   const { state, dispatch } = React.useContext(SongContext);
   const classes = useStyles();
@@ -86,7 +85,7 @@ const SongPlayer = ({ queue }) => {
         </div>
         <CardMedia className={classes.thumbnail} image={state.song.thumbnail} />
       </Card>
-      <QueuedSongList queue={data} />
+      <QueuedSongList queue={data.queue} />
     </>
   );
 };

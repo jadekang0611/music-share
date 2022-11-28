@@ -104,6 +104,13 @@ const client = new ApolloClient({
   },
 });
 
-const data = { queue: [] };
+const hasQueue = Boolean(localStorage.getItem("queue"));
+
+client.writeQuery({
+  query: GET_QUEUED_SONGS,
+  data: {
+    queue: hasQueue ? JSON.parse(localStorage.getItem("queue")) : [],
+  },
+});
 
 export default client;
