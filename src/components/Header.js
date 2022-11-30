@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography, makeStyles } from '@material-ui/core';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import Logo from '../assets/tkp-logo.png';
 
 const Header = () => {
