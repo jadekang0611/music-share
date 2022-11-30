@@ -1,10 +1,10 @@
-# Music Share App For My Family
+# Music PlayList App For My Family
 
 I like YouTube because I can easily listen to music or watch K-Pop music videos, but I don't want my little kids to use YouTube because there are too many inappropriate contents that just pop up out of nowhere. I also don't like the fact that Google tracks what I do on YouTube. Therefore, I decided to develop a simple music playlist application where my wife and I can easily add any songs that we enjoy listening to with our lovely kids.
 
 # About The Project
 
-There are many ways to use GraphQL and React, however I thought there are only few efficient and best ways to use them as a senior frontend engineer. Therefore, I decided to study and practice ApolloGraphQL and Asura along with GraphQL and React to build a simple todo app.
+There are many ways to use GraphQL and React, however I thought there are only few efficient and best ways to use them as a senior frontend engineer. Therefore, I decided to study and practice ApolloGraphQL and Asura along with GraphQL and React to build a music playlist application.
 
 ### Built With
 
