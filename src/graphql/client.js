@@ -4,27 +4,27 @@ import {
   split,
   HttpLink,
   gql,
-} from "@apollo/client";
-import { getMainDefinition } from "@apollo/client/utilities";
-import { createClient } from "graphql-ws";
-import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
-import { GET_QUEUED_SONGS } from "./queries";
+} from '@apollo/client';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { createClient } from 'graphql-ws';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { GET_QUEUED_SONGS } from './queries';
 
 const httpLink = new HttpLink({
-  uri: "https://on-firefly-85.hasura.app/v1/graphql",
+  uri: 'https://on-firefly-85.hasura.app/v1/graphql',
   headers: {
-    "x-hasura-admin-secret":
-      "LzODuRqK4UV61gr0O1nULEu0OIWvnRC9QDWeaCK5oXEnZp4ZdtZJKh86UBIkDRBY",
+    'x-hasura-admin-secret':
+      'LzODuRqK4UV61gr0O1nULEu0OIWvnRC9QDWeaCK5oXEnZp4ZdtZJKh86UBIkDRBY',
   },
 });
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "ws://on-firefly-85.hasura.app/v1/graphql",
+    url: 'ws:://on-firefly-85.hasura.app/v1/graphql',
     connectionParams: {
       headers: {
-        "x-hasura-admin-secret":
-          "LzODuRqK4UV61gr0O1nULEu0OIWvnRC9QDWeaCK5oXEnZp4ZdtZJKh86UBIkDRBY",
+        'x-hasura-admin-secret':
+          'LzODuRqK4UV61gr0O1nULEu0OIWvnRC9QDWeaCK5oXEnZp4ZdtZJKh86UBIkDRBY',
       },
     },
   })
@@ -41,8 +41,8 @@ const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
     return (
-      definition.kind === "OperationDefinition" &&
-      definition.operation === "subscription"
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
     );
   },
   wsLink,
@@ -104,12 +104,12 @@ const client = new ApolloClient({
   },
 });
 
-const hasQueue = Boolean(localStorage.getItem("queue"));
+const hasQueue = Boolean(localStorage.getItem('queue'));
 
 client.writeQuery({
   query: GET_QUEUED_SONGS,
   data: {
-    queue: hasQueue ? JSON.parse(localStorage.getItem("queue")) : [],
+    queue: hasQueue ? JSON.parse(localStorage.getItem('queue')) : [],
   },
 });
 
