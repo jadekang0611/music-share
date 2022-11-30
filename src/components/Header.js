@@ -1,20 +1,14 @@
-import { AppBar, Toolbar, Typography, makeStyles } from "@material-ui/core";
-import AlbumIcon from "@material-ui/icons/Album";
-
-const useStyles = makeStyles((theme) => ({
-  title: {
-    marginLeft: theme.spacing(2),
-  },
-}));
+import { AppBar, Toolbar, Typography, makeStyles } from '@material-ui/core';
+import Logo from '../assets/tkp-logo.png';
 
 const Header = () => {
-  const classes = useStyles();
   return (
-    <AppBar position="fixed" color="primary">
+    <AppBar position='fixed' color='primary'>
       <Toolbar>
-        <AlbumIcon />
-        <Typography variant="h6" component="h1" className={classes.title}>
-          JK Music Share
+        {/* <AlbumIcon /> */}
+        <img src={Logo} alt='tkp-logo' width='50px' />
+        <Typography variant='h6' component='h1'>
+          The K-Playlist
         </Typography>
       </Toolbar>
     </AppBar>

@@ -1,16 +1,19 @@
-import { createTheme } from "@material-ui/core/styles";
+import { createTheme } from '@material-ui/core/styles';
 
 const theme = createTheme({
+  typography: {
+    fontFamily: 'Ubuntu, sans-serif',
+  },
   palette: {
-    type: "dark",
+    type: 'dark',
     primary: {
-      main: "#1affb2",
+      main: '#1affb2',
     },
     secondary: {
-      main: "#AA99FF",
+      main: '#AA99FF',
     },
     error: {
-      main: "#ff4b79",
+      main: '#ff4b79',
     },
   },
 });
